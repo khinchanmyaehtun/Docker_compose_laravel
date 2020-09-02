@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  web-laravel:
+    image: php:fpm-alpine
+    container_name: laravel-with-sql
+    ports:
+      - 8080:80
+    volumes: 
+      - './blog:/var/www/blog'
+    working_dir: '/var/www/blog'
+    links:
+      - db-mysql
+    stdin_open : true
+    restart: always
+    tty: true
+    command: 
+      php artisan serve --host=0.0.0.0 --port=80
+    # for production ...
+
+  db-mysql:
+    image: appcontainers/mysql:centos
+    container_name: db-mysql
+    stdin_open: true
+    tty: true
+    restart: always
+    volumes_from:
+      - db-data
+    environment:
+      - CREATEDB=true
+      - MYSQL_PASS=passw
+      - MYSQL_DB=passw 
+      - APP_USER=admin123
+      - APP_PASS=kcmh123
+    command: /bin/bash
+  
+  db-data:
+    image: appcontainers/centos
+    container_name: db-data
+    restart: always
+    volumes:
+      - "/var/lib"
+    stdin_open: true
+    tty: true
+    command: /bin/bash
