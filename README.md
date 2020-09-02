@@ -1,2 +1,3 @@
 # Docker_compose_laravel
-Laravel Homepage using docker compose
+1. Don't forget to install composer(PHP packet Manager)
+2. Don;t forget to edit env.
